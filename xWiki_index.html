@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>XWiki AI-Powered Assistant</title>
+</head>
+<body>
+  <form id="search-form">
+    <input type="text" id="search-input" placeholder="Search XWiki...">
+    <button type="submit">Search</button>
+  </form>
+
+  <div id="search-results"></div>
+
+  <script>
+    const searchForm = document.querySelector('#search-form');
+    const searchResults = document.querySelector('#search-results');
+
+    searchForm.addEventListener('submit', (event) => {
+      event.preventDefault();
+      const query = searchForm.querySelector('#search-input').value;
+      // Use XWiki's API endpoint to retrieve search results from the AI-powered assistant
+      fetch(`/api/search?q=${query}`)
+        .then(response => response.json())
+        .then(results => {
+          // Update the user interface to display the search results
+          updateSearchResults(results);
+        })
+        .catch(error => console.error(error));
+    });
+
+    function updateSearchResults(results) {
+      // Clear previous search results
+      searchResults.innerHTML = '';
+
+      // Display search results to the user
+      results.forEach(result => {
+        const title = result.title;
+        const summary = result.summary;
+        const url = result.url;
+
+        const resultItem = `
+          <div>
+            <h3>${title}</h3>
+            <p>${summary}</p>
+            <a href="${url}">Read more...</a>
+          </div>
+        `;
+
+        searchResults.insertAdjacentHTML('beforeend', resultItem);
+      });
+    }
+  </script>
+  <script src="xWiki_AI-extension.js"></script> 
+  <!-- Code by Musharaf Aijaz -->
+</body>
+</html>
